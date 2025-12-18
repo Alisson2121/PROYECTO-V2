@@ -6,15 +6,12 @@ paho-mqtt==1.6.1
 
 # Base de datos
 supabase==2.3.4
-postgrest==0.10.8
+postgrest==0.10.9  # actualizado para evitar conflicto de httpx
 
 # Text-to-Speech y Speech Recognition
 gTTS==2.5.0
 SpeechRecognition==3.10.1
 pydub==0.25.1
-
-# Audio processing (dependencia de pydub)
-# Nota: ffmpeg debe estar instalado en el sistema
 
 # IA (opcional - solo si usas Claude AI)
 anthropic==0.18.1
