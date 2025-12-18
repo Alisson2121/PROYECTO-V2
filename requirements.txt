@@ -6,7 +6,6 @@ paho-mqtt==1.6.1
 
 # Base de datos
 supabase==2.3.4
-postgrest==0.10.9  # actualizado para evitar conflicto de httpx
 
 # Text-to-Speech y Speech Recognition
 gTTS==2.5.0
@@ -19,5 +18,5 @@ anthropic==0.18.1
 # Variables de entorno
 python-dotenv==1.0.1
 
-# Utilidades adicionales
+# Utilidades
 requests==2.31.0
