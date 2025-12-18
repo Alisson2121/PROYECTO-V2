@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 ESP32 Dashboard Pro - IA + Sistema Experto</title>
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #06b6d4;
+            --purple: #a855f7;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --border: #334155;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .header .subtitle {
+            font-size: 0.9em;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .ai-badge {
+            background: linear-gradient(135deg, var(--purple), var(--primary));
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            animation: pulseBadge 2s infinite;
+        }
+
+        @keyframes pulseBadge {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge.online {
+            background: rgba(16, 185, 129, 0.2);
+            border: 2px solid var(--success);
+            color: var(--success);
+            animation: pulseGreen 2s infinite;
+        }
+
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid var(--danger);
+            color: var(--danger);
+        }
+
+        @keyframes pulseGreen {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .pulse-dot.green { background: var(--success); animation: pulse 2s infinite; }
+        .pulse-dot.red { background: var(--danger); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 15px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card.ia-card {
+            border: 2px solid var(--purple);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
+        }
+
+        .card.experto-card {
+            border: 2px solid var(--info);
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .card.wide {
+            grid-column: span 2;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .card-header h2 {
+            font-size: 1.2em;
+            flex: 1;
+        }
+
+        .temp-display {
+            text-align: center;
+            background: rgba(102, 126, 234, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .temp-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* === ESTILOS ESPECÍFICOS PARA IA === */
+        
+        .ia-section {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .ia-tendencia {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .tendencia-icon {
+            font-size: 2.5em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .tendencia-texto {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        .tendencia-texto strong {
+            display: block;
+            font-size: 1.1em;
+            margin-bottom: 4px;
+        }
+
+        .tendencia-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .tendencia-badge.subiendo {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .tendencia-badge.bajando {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+
+        .tendencia-badge.estable {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .ia-prediccion {
+            background: rgba(245, 158, 11, 0.1);
+            border: 2px dashed var(--warning);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ia-prediccion h4 {
+            color: var(--warning);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .prediccion-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--warning);
+            text-align: center;
+            margin: 8px 0;
+        }
+
+        .diagnostico-estado {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .diagnostico-estado.optimo {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .diagnostico-estado.bueno {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+
+        .diagnostico-estado.aceptable {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .diagnostico-estado.problematico,
+        .diagnostico-estado.critico {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .ia-recomendaciones {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ia-recomendaciones li {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--purple);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .ia-recomendaciones li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .ia-recomendaciones li::before {
+            content: "💡 ";
+        }
+
+        .ia-problemas {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ia-problemas li {
+            padding: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--danger);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+
+        .ia-problemas li::before {
+            content: "⚠️ ";
+        }
+
+        .alerta-urgente {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid var(--danger);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            animation: alertPulse 1.5s infinite;
+        }
+
+        @keyframes alertPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { opacity: 0.9; box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+
+        .alerta-urgente h4 {
+            color: var(--danger);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        /* === ESTILOS PARA SISTEMA EXPERTO === */
+
+        .experto-section {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .experto-regla {
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--info);
+            transition: all 0.2s;
+        }
+
+        .experto-regla:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateX(5px);
+        }
+
+        .experto-regla .regla-titulo {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--info);
+            font-size: 0.95em;
+        }
+
+        .experto-regla .regla-desc {
+            font-size: 0.85em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .severidad-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .severidad-badge.critica {
+            background: rgba(239, 68, 68, 0.3);
+            color: var(--danger);
+        }
+
+        .severidad-badge.alta {
+            background: rgba(245, 158, 11, 0.3);
+            color: var(--warning);
+        }
+
+        .severidad-badge.media {
+            background: rgba(6, 182, 212, 0.3);
+            color: var(--info);
+        }
+
+        .severidad-badge.baja {
+            background: rgba(16, 185, 129, 0.3);
+            color: var(--success);
+        }
+
+        .relay-status {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .relay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .relay-name {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .relay-state {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .relay-state.on {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+        }
+
+        .relay-state.off {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .mode-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .mode-badge.auto {
+            background: rgba(102, 126, 234, 0.2);
+            color: var(--primary);
+        }
+
+        .mode-badge.manual {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .chart-container {
+            height: 220px;
+            margin-top: 12px;
+        }
+
+        .config-display {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .config-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .config-item:last-child {
+            border-bottom: none;
+        }
+
+        .config-label {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .config-value {
+            font-weight: 600;
+            color: var(--warning);
+        }
+
+        .btn-refresh {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-refresh:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-refresh:active {
+            transform: translateY(0);
+        }
+
+        .readonly-notice {
+            background: rgba(102, 126, 234, 0.15);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .readonly-notice h3 {
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .timestamp {
+            font-size: 0.75em;
+            opacity: 0.6;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 30px;
+            opacity: 0.6;
+        }
+
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.03);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .stat-label {
+            opacity: 0.7;
+            font-size: 0.8em;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .instructions {
+            font-size: 0.9em;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .instructions ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin: 5px 0;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard { 
+                grid-template-columns: 1fr; 
+            }
+            .card.wide {
+                grid-column: span 1;
+            }
+        }
+
+        @media (min-width: 1400px) {
+            .card.wide {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 ESP32 Dashboard Pro</h1>
+        <div class="subtitle">
+            <span>Monitoreo Inteligente en Tiempo Real</span>
+            <span class="ai-badge">🧠 Claude AI + Sistema Experto</span>
+        </div>
+    </div>
+
+    <div class="readonly-notice">
+        <h3>📖 Dashboard de Análisis Inteligente</h3>
+        <p style="font-size: 0.9em;">
+            Análisis predictivo con <strong>IA de Anthropic (Claude Sonnet 4)</strong> + <strong>Sistema Experto</strong> basado en reglas<br>
+            Para controlar dispositivos, usa el <strong>Bot de Telegram</strong>
+        </p>
+    </div>
+
+    <div class="status-bar">
+        <div id="supabaseStatus" class="status-badge offline">
+            <span class="pulse-dot red"></span>
+            <span>Base de Datos</span>
+        </div>
+        <div id="esp32Status" class="status-badge offline">
+            <span class="pulse-dot red"></span>
+            <span>ESP32</span>
+        </div>
+        <div id="iaStatus" class="status-badge offline">
+            <span class="pulse-dot red"></span>
+            <span>Análisis IA</span>
+        </div>
+        <div id="expertoStatus" class="status-badge offline">
+            <span class="pulse-dot red"></span>
+            <span>Sistema Experto</span>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <!-- ANÁLISIS IA CON CLAUDE -->
+        <div class="card ia-card wide">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">🧠</span>
+                <h2>Análisis Inteligente con Claude AI</h2>
+                <button class="btn-refresh" onclick="loadIAAnalysis()">🔄</button>
+            </div>
+
+            <div id="iaAnalysisContainer">
+                <div class="loading">Cargando análisis de inteligencia artificial</div>
+            </div>
+        </div>
+
+        <!-- SISTEMA EXPERTO -->
+        <div class="card experto-card">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">⚙️</span>
+                <h2>Sistema Experto</h2>
+                <button class="btn-refresh" onclick="loadExpertoAnalysis()">🔄</button>
+            </div>
+
+            <div id="expertoContainer">
+                <div class="loading">Cargando reglas expertas</div>
+            </div>
+        </div>
+
+        <!-- Temperatura Actual -->
+        <div class="card">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">🌡️</span>
+                <h2>Clima Actual</h2>
+            </div>
+            <div class="temp-display">
+                <div class="temp-value" id="currentTemp">--°C</div>
+                <div style="opacity: 0.7; margin-top: 5px; font-size: 0.85em;">
+                    Actualizado: <span id="lastUpdate">Cargando...</span>
+                </div>
+            </div>
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <div class="stat-label">💧 Humedad</div>
+                    <div class="stat-value" style="color: var(--info);" id="currentHum">--%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">🎯 Setpoint</div>
+                    <div class="stat-value" style="color: var(--warning);" id="setpoint">--°C</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico Histórico -->
+        <div class="card wide">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">📈</span>
+                <h2>Historial en Tiempo Real</h2>
+            </div>
+            <div class="chart-container">
+                <canvas id="tempChart"></canvas>
+            </div>
+            <div class="timestamp">
+                Últimos 20 registros • Actualización automática cada 5 segundos
+            </div>
+        </div>
+
+        <!-- Estado de Dispositivos -->
+        <div class="card">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">🔌</span>
+                <h2>Estado de Dispositivos</h2>
+            </div>
+            <div id="relaysContainer">
+                <p style="text-align: center; opacity: 0.6;">Esperando datos...</p>
+            </div>
+        </div>
+
+        <!-- Configuración Actual -->
+        <div class="card">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">⚙️</span>
+                <h2>Configuración del Sistema</h2>
+            </div>
+            <div class="config-display">
+                <div class="config-item">
+                    <span class="config-label">🎯 Temperatura Objetivo</span>
+                    <span class="config-value" id="cfgSetpoint">--°C</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">📊 Histéresis</span>
+                    <span class="config-value" id="cfgHysteresis">--°C</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">🔥 Temp Máxima Alerta</span>
+                    <span class="config-value" id="cfgTempMax">--°C</span>
+                </div>
+                <div class="config-item">
+                    <span class="config-label">❄️ Temp Mínima Alerta</span>
+                    <span class="config-value" id="cfgTempMin">--°C</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instrucciones -->
+        <div class="card">
+            <div class="card-header">
+                <span style="font-size: 1.5em;">📋</span>
+                <h2>Guía de Uso</h2>
+            </div>
+            <div class="instructions">
+                <p><strong>🔍 Este Dashboard muestra:</strong></p>
+                <ul>
+                    <li>🧠 Análisis predictivo con IA (Claude AI)</li>
+                    <li>⚙️ Reglas del sistema experto activadas</li>
+                    <li>📊 Temperatura y humedad en tiempo real</li>
+                    <li>📈 Gráficos históricos actualizados</li>
+                    <li>⚡ Estado de dispositivos (ON/OFF)</li>
+                </ul>
+
+                <p style="margin-top: 15px;"><strong>🎮 Control por Telegram:</strong></p>
+                <ul>
+                    <li>"<strong>temperatura máxima 35</strong>" - Ajustar alertas</li>
+                    <li>"<strong>enciende ventilador</strong>" - Control manual</li>
+                    <li>"<strong>setpoint 25</strong>" - Cambiar objetivo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ⚠️ CONFIGURACIÓN - Reemplaza con tus credenciales
+        const SUPABASE_URL = 'https://yxwinzfhokugvtpmvyqz.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4d2luemZob2t1Z3Z0cG12eXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzIyNjcsImV4cCI6MjA4MTQwODI2N30.xbNWsxmQ4MwbjaQgzfZLkvLE66XqaANiUD4pggr43Vg';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        let tempChart = null;
+        let chartData = { labels: [], temp: [], hum: [] };
+
+        // ===== INICIALIZAR GRÁFICO =====
+        function initChart() {
+            const ctx = document.getElementById('tempChart');
+            if (!ctx) return;
+
+            tempChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [
+                        {
+                            label: 'Temperatura (°C)',
+                            data: chartData.temp,
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: 'Humedad (%)',
+                            data: chartData.hum,
+                            borderColor: '#06b6d4',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true,
+                            pointRadius: 3,
+                            pointBackgroundColor: '#06b6d4',
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: { color: '#94a3b8', font: { size: 11 } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            position: 'left',
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Temperatura (°C)', color: '#f59e0b' }
+                        },
+                        y1: {
+                            type: 'linear',
+                            position: 'right',
+                            grid: { display: false },
+                            ticks: { color: '#94a3b8' },
+                            title: { display: true, text: 'Humedad (%)', color: '#06b6d4' }
+                        },
+                        x: {
+                            grid: { color: '#334155' },
+                            ticks: { color: '#94a3b8', maxRotation: 0 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // ===== ACTUALIZAR ESTADO =====
+        function updateStatus(elementId, isOnline, text) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            
+            const pulse = el.querySelector('.pulse-dot');
+            const span = el.querySelector('span:last-child');
+            
+            if (isOnline) {
+                el.className = 'status-badge online';
+                if (pulse) pulse.className = 'pulse-dot green';
+            } else {
+                el.className = 'status-badge offline';
+                if (pulse) pulse.className = 'pulse-dot red';
+            }
+            if (text && span) span.textContent = text;
+        }
+
+        // ===== CARGAR ANÁLISIS IA =====
+        async function loadIAAnalysis() {
+            try {
+                const { data, error } = await supabase
+                    .from('ia_analysis')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+
+                const container = document.getElementById('iaAnalysisContainer');
+
+                if (error || !data || data.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; opacity: 0.6;">
+                            <div style="font-size: 3em; margin-bottom: 10px;">🤖</div>
+                            <p>No hay análisis de IA disponibles</p>
+                            <p style="font-size: 0.85em; margin-top: 8px;">El sistema se actualizará automáticamente cuando esté disponible</p>
+                        </div>
+                    `;
+                    updateStatus('iaStatus', false, 'IA Inactiva');
+                    return;
+                }
+
+                const analisis = JSON.parse(data[0].analisis_completo);
+                updateStatus('iaStatus', true, 'IA Activa');
+
+                // Icono de tendencia
+                let tendenciaIcon = '📊';
+                if (analisis.tendencia === 'subiendo') tendenciaIcon = '📈';
+                else if (analisis.tendencia === 'bajando') tendenciaIcon = '📉';
+                else if (analisis.tendencia === 'estable') tendenciaIcon = '➡️';
+
+                let html = '';
+
+                // ALERTA URGENTE (si existe)
+                if (analisis.alerta_urgente && analisis.alerta_urgente.activa) {
+                    html += `
+                        <div class="alerta-urgente">
+                            <h4>🚨 ALERTA URGENTE</h4>
+                            <div style="font-weight: 600; font-size: 1.05em;">${analisis.alerta_urgente.tipo}</div>
+                            <div style="opacity: 0.9; margin-top: 6px;">${analisis.alerta_urgente.mensaje}</div>
+                        </div>
+                    `;
+                }
+
+                // TENDENCIA
+                html += `
+                    <div class="ia-tendencia">
+                        <div class="tendencia-icon">${tendenciaIcon}</div>
+                        <div class="tendencia-texto">
+                            <strong>Tendencia de Temperatura</strong>
+                            <div style="opacity: 0.85; font-size: 0.9em; margin-top: 4px;">${analisis.tendencia_descripcion}</div>
+                        </div>
+                        <span class="tendencia-badge ${analisis.tendencia}">${analisis.tendencia.toUpperCase()}</span>
+                    </div>
+                `;
+
+                // PREDICCIÓN
+                html += `
+                    <div class="ia-prediccion">
+                        <h4>🔮 Predicción para los próximos 30 minutos</h4>
+                        <div class="prediccion-value">
+                            ${analisis.prediccion_30min.temperatura.toFixed(1)}°C
+                        </div>
+                        <div style="text-align: center; font-size: 0.85em; opacity: 0.8;">
+                            Nivel de confianza: <strong>${analisis.prediccion_30min.confianza}</strong>
+                        </div>
+                    </div>
+                `;
+
+                // DIAGNÓSTICO
+                html += `
+                    <div class="ia-section">
+                        <h3 style="margin-bottom: 12px; font-size: 1.1em;">🔍 Diagnóstico del Sistema</h3>
+                        <span class="diagnostico-estado ${analisis.diagnostico.estado_general}">
+                            ${analisis.diagnostico.estado_general.toUpperCase()}
+                        </span>
+                        <div style="margin-top: 12px; font-size: 0.9em;">
+                            <strong>⚡ Eficiencia del Sistema:</strong> 
+                            <span style="text-transform: capitalize;">${analisis.diagnostico.eficiencia_sistema}</span>
+                        </div>
+                `;
+
+                // Problemas detectados
+                if (analisis.diagnostico.problemas_detectados && analisis.diagnostico.problemas_detectados.length > 0) {
+                    html += `
+                        <div style="margin-top: 15px;">
+                            <strong style="color: var(--danger); display: block; margin-bottom: 8px;">⚠️ Problemas Detectados:</strong>
+                            <ul class="ia-problemas">
+                                ${analisis.diagnostico.problemas_detectados.map(p => `<li>${p}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border-left: 3px solid var(--success);">
+                            <strong style="color: var(--success);">✅ No se detectaron problemas</strong>
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+
+                // RECOMENDACIONES
+                if (analisis.recomendaciones && analisis.recomendaciones.length > 0) {
+                    html += `
+                        <div class="ia-section">
+                            <h3 style="margin-bottom: 12px; font-size: 1.1em;">💡 Recomendaciones del Sistema</h3>
+                            <ul class="ia-recomendaciones">
+                                ${analisis.recomendaciones.map(r => `<li>${r}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                // Timestamp
+                const fecha = new Date(data[0].created_at);
+                html += `
+                    <div class="timestamp">
+                        📅 Última actualización: ${fecha.toLocaleDateString('es-PE')} ${fecha.toLocaleTimeString('es-PE')}
+                    </div>
+                `;
+
+                container.innerHTML = html;
+
+            } catch (error) {
+                console.error('Error cargando análisis IA:', error);
+                document.getElementById('iaAnalysisContainer').innerHTML = `
+                    <div style="text-align: center; padding: 30px; color: var(--danger);">
+                        <div style="font-size: 2em; margin-bottom: 10px;">❌</div>
+                        <p>Error al cargar análisis de IA</p>
+                    </div>
+                `;
+                updateStatus('iaStatus', false, 'Error IA');
+            }
+        }
+
+        // ===== CARGAR ANÁLISIS SISTEMA EXPERTO =====
+        async function loadExpertoAnalysis() {
+        const container = document.getElementById('expertoContainer');
+        
+        try {
+            const { data, error } = await supabase
+                .from('expert_analysis')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(1);
+
+            if (error || !data || data.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; opacity: 0.6;">
+                        <div style="font-size: 3em; margin-bottom: 10px;">⚙️</div>
+                        <p>No hay análisis del sistema experto disponibles</p>
+                    </div>
+                `;
+                updateStatus('expertoStatus', false, 'Experto Inactivo');
+                return;
+            }
+
+            const analisis = data[0];
+            const diagnostico = JSON.parse(analisis.diagnostico_completo);
+            updateStatus('expertoStatus', true, 'Sistema Experto Activo');
+
+            let estadoIcon = '✅';
+            if (analisis.estado_general === 'critico') estadoIcon = '🚨';
+            else if (analisis.estado_general === 'problematico') estadoIcon = '⚠️';
+            else if (analisis.estado_general === 'aceptable') estadoIcon = '⚙️';
+
+            let html = `
+                <div class="experto-section">
+                    <h3 style="margin-bottom: 15px;">📊 Estado General del Sistema</h3>
+                    <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                        <div style="font-size: 3em;">${estadoIcon}</div>
+                        <span class="diagnostico-estado ${analisis.estado_general}">
+                            ${analisis.estado_general.toUpperCase()}
+                        </span>
+                    </div>
+                    <div class="stat-grid" style="margin-top: 15px;">
+                        <div class="stat-item">
+                            <div class="stat-label">🔴 Severidad</div>
+                            <div class="stat-value">${analisis.severidad_maxima.toUpperCase()}</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">📋 Reglas</div>
+                            <div class="stat-value">${analisis.total_reglas}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const problemas = JSON.parse(analisis.problemas || '[]');
+            if (problemas.length > 0) {
+                html += `
+                    <div class="experto-section" style="background: rgba(239,68,68,0.1);">
+                        <h3 style="color: var(--danger);">⚠️ Problemas Detectados</h3>
+                        <ul class="ia-problemas">
+                            ${problemas.map(p => `<li>${p}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+
+            if (diagnostico.reglas_por_tipo) {
+                html += `<div class="experto-section"><h3>📋 Reglas Activadas</h3>`;
+                for (const [tipo, reglas] of Object.entries(diagnostico.reglas_por_tipo)) {
+                    html += `<strong>${tipo}: ${reglas.length} reglas</strong><br>`;
+                    reglas.forEach(r => {
+                        html += `
+                            <div class="experto-regla">
+                                <div class="regla-titulo">
+                                    ${r.nombre}
+                                    <span class="severidad-badge ${r.severidad}">${r.severidad}</span>
+                                </div>
+                                <div class="regla-desc">${r.recomendacion}</div>
+                            </div>
+                        `;
+                    });
+                }
+                html += `</div>`;
+            }
+
+            const fecha = new Date(analisis.created_at);
+            html += `<div class="timestamp">📅 ${fecha.toLocaleString('es-PE')}</div>`;
+
+            container.innerHTML = html;
+
+        } catch (error) {
+            console.error('Error:', error);
+            updateStatus('expertoStatus', false, 'Error Experto');
+        }
+    }
+
+        // ===== CARGAR DATOS ACTUALES =====
+        async function loadLatestData() {
+            try {
+                const { data, error } = await supabase
+                    .from('sensor_readings')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(1);
+
+                if (error) {
+                    updateStatus('supabaseStatus', false, 'DB Error');
+                    updateStatus('esp32Status', false, 'ESP32');
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    const latest = data[0];
+                    updateStatus('supabaseStatus', true, 'Base de Datos');
+                    
+                    const lastUpdate = new Date(latest.created_at);
+                    const diffSeconds = (new Date() - lastUpdate) / 1000;
+                    
+                    updateStatus('esp32Status', diffSeconds < 60, diffSeconds < 60 ? 'ESP32 Online' : `ESP32 (${Math.floor(diffSeconds)}s)`);
+                    
+                    document.getElementById('currentTemp').textContent = latest.temperatura.toFixed(1) + '°C';
+                    document.getElementById('currentHum').textContent = latest.humedad.toFixed(0) + '%';
+                    document.getElementById('lastUpdate').textContent = lastUpdate.toLocaleTimeString('es-PE');
+                    
+                    if (latest.setpoint) {
+                        document.getElementById('setpoint').textContent = latest.setpoint.toFixed(1) + '°C';
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                updateStatus('supabaseStatus', false, 'DB Offline');
+                updateStatus('esp32Status', false, 'ESP32');
+            }
+        }
+
+        // ===== CARGAR HISTORIAL PARA GRÁFICO =====
+        async function loadChartData() {
+            try {
+                const { data } = await supabase
+                    .from('sensor_readings')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+
+                if (data && data.length > 0) {
+                    data.reverse();
+                    
+                    chartData.labels = [];
+                    chartData.temp = [];
+                    chartData.hum = [];
+                    
+                    data.forEach(r => {
+                        const time = new Date(r.created_at).toLocaleTimeString('es-PE', { 
+                            hour: '2-digit', 
+                            minute: '2-digit' 
+                        });
+                        chartData.labels.push(time);
+                        chartData.temp.push(r.temperatura);
+                        chartData.hum.push(r.humedad);
+                    });
+                    
+                    if (tempChart) tempChart.update('none');
+                }
+
+            } catch (error) {
+                console.error('Error gráfico:', error);
+            }
+        }
+
+        // ===== CARGAR CONFIGURACIÓN =====
+        async function loadConfig() {
+            try {
+                const { data } = await supabase
+                    .from('system_config')
+                    .select('*')
+                    .order('id', { ascending: false })
+                    .limit(1);
+
+                if (data && data.length > 0) {
+                    const cfg = data[0];
+                    document.getElementById('cfgSetpoint').textContent = (cfg.setpoint || 24).toFixed(1) + '°C';
+                    document.getElementById('cfgHysteresis').textContent = (cfg.hysteresis || 2).toFixed(1) + '°C';
+                    document.getElementById('cfgTempMax').textContent = (cfg.temp_max || 30) + '°C';
+                    document.getElementById('cfgTempMin').textContent = (cfg.temp_min || 18) + '°C';
+                }
+
+            } catch (error) {
+                console.error('Error config:', error);
+            }
+        }
+
+        // ===== CARGAR ESTADO DE RELAYS =====
+        async function loadRelays() {
+            try {
+                const { data } = await supabase
+                    .from('relay_states')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(4);
+
+                const container = document.getElementById('relaysContainer');
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; opacity: 0.6;">Sin datos de dispositivos</p>';
+                    return;
+                }
+
+                const latestStates = {};
+                data.forEach(r => {
+                    if (!latestStates[r.relay_number]) latestStates[r.relay_number] = r;
+                });
+
+                const modes = ['🔴 Forzado OFF', '🟢 Forzado ON', '🤖 Automático', '✋ Manual'];
+                
+                container.innerHTML = Object.values(latestStates)
+                    .sort((a, b) => a.relay_number - b.relay_number)
+                    .map(r => {
+                        const stateClass = r.state ? 'on' : 'off';
+                        const stateText = r.state ? '🟢 ENCENDIDO' : '🔴 APAGADO';
+                        const modeText = modes[r.mode] || 'Desconocido';
+                        const modeClass = ['forced-off', 'forced-on', 'auto', 'manual'][r.mode] || '';
+                        
+                        return `
+                            <div class="relay-status">
+                                <div class="relay-header">
+                                    <span class="relay-name">${r.relay_name || 'Relay ' + r.relay_number}</span>
+                                    <span class="relay-state ${stateClass}">${stateText}</span>
+                                </div>
+                                <span class="mode-badge ${modeClass}">
+                                    ${modeText}
+                                </span>
+                            </div>
+                        `;
+                    }).join('');
+
+            } catch (error) {
+                console.error('Error relays:', error);
+            }
+        }
+
+        // ===== INICIALIZACIÓN =====
+        window.addEventListener('load', () => {
+            console.log('🚀 Iniciando Dashboard ESP32 Pro con IA...');
+            
+            // Inicializar gráfico
+            initChart();
+            
+            // Primera carga
+            loadLatestData();
+            loadChartData();
+            loadConfig();
+            loadRelays();
+            loadIAAnalysis();
+            loadExpertoAnalysis();
+            
+            // Actualización periódica
+            setInterval(() => {
+                loadLatestData();
+                loadChartData();
+            }, 5000);  // Cada 5 segundos
+            
+            setInterval(loadRelays, 10000);           // Cada 10 segundos
+            setInterval(loadConfig, 15000);           // Cada 15 segundos
+            setInterval(loadIAAnalysis, 60000);       // Cada 60 segundos (1 minuto)
+            setInterval(loadExpertoAnalysis, 30000);  // Cada 30 segundos
+            
+            console.log('✅ Dashboard listo');
+            console.log('📡 Leyendo datos de Supabase');
+            console.log('🧠 Análisis IA activado');
+        });
+    </script>
+</body>
+</html>
