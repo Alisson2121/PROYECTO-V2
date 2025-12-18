@@ -4,12 +4,16 @@ paho-mqtt==1.6.1
 # Base de datos  
 supabase==2.3.4
 
-# NumPy y SciPy
-numpy==2.2.0
-scipy==1.14.1
+# NumPy compatible con todas las librerías
+numpy==1.26.4
 
-# Lógica Difusa y sus dependencias
+# SciPy compatible con numpy 1.26.x
+scipy==1.11.4
+
+# Lógica Difusa
 scikit-fuzzy==0.4.2
+
+# Matplotlib compatible con numpy 1.x
 matplotlib==3.8.2
 
 # Variables de entorno
