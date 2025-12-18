@@ -4,12 +4,13 @@ paho-mqtt==1.6.1
 # Base de datos  
 supabase==2.3.4
 
-# NumPy y SciPy con wheels pre-compilados
+# NumPy y SciPy
 numpy==2.2.0
 scipy==1.14.1
 
-# Lógica Difusa
+# Lógica Difusa y sus dependencias
 scikit-fuzzy==0.4.2
+matplotlib==3.8.2
 
 # Variables de entorno
 python-dotenv==1.0.1
