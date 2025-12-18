@@ -182,8 +182,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* === ESTILOS ESPECÍFICOS PARA IA === */
-        
         .ia-section {
             background: rgba(168, 85, 247, 0.1);
             border: 1px solid rgba(168, 85, 247, 0.3);
@@ -191,184 +189,6 @@
             padding: 15px;
             margin-bottom: 12px;
         }
-
-        .ia-tendencia {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-
-        .tendencia-icon {
-            font-size: 2.5em;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .tendencia-texto {
-            flex: 1;
-            margin-left: 10px;
-        }
-
-        .tendencia-texto strong {
-            display: block;
-            font-size: 1.1em;
-            margin-bottom: 4px;
-        }
-
-        .tendencia-badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .tendencia-badge.subiendo {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .tendencia-badge.bajando {
-            background: rgba(6, 182, 212, 0.2);
-            color: var(--info);
-            border: 1px solid var(--info);
-        }
-
-        .tendencia-badge.estable {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .ia-prediccion {
-            background: rgba(245, 158, 11, 0.1);
-            border: 2px dashed var(--warning);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-        }
-
-        .ia-prediccion h4 {
-            color: var(--warning);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .prediccion-value {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: var(--warning);
-            text-align: center;
-            margin: 8px 0;
-        }
-
-        .diagnostico-estado {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .diagnostico-estado.optimo {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .diagnostico-estado.bueno {
-            background: rgba(6, 182, 212, 0.2);
-            color: var(--info);
-            border: 1px solid var(--info);
-        }
-
-        .diagnostico-estado.aceptable {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-
-        .diagnostico-estado.problematico,
-        .diagnostico-estado.critico {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .ia-recomendaciones {
-            list-style: none;
-            padding: 0;
-        }
-
-        .ia-recomendaciones li {
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--purple);
-            border-radius: 4px;
-            margin-bottom: 8px;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-
-        .ia-recomendaciones li:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .ia-recomendaciones li::before {
-            content: "💡 ";
-        }
-
-        .ia-problemas {
-            list-style: none;
-            padding: 0;
-        }
-
-        .ia-problemas li {
-            padding: 8px;
-            background: rgba(239, 68, 68, 0.1);
-            border-left: 3px solid var(--danger);
-            border-radius: 4px;
-            margin-bottom: 6px;
-            font-size: 0.85em;
-        }
-
-        .ia-problemas li::before {
-            content: "⚠️ ";
-        }
-
-        .alerta-urgente {
-            background: rgba(239, 68, 68, 0.15);
-            border: 2px solid var(--danger);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            animation: alertPulse 1.5s infinite;
-        }
-
-        @keyframes alertPulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-            50% { opacity: 0.9; box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-        }
-
-        .alerta-urgente h4 {
-            color: var(--danger);
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-
-        /* === ESTILOS PARA SISTEMA EXPERTO === */
 
         .experto-section {
             background: rgba(6, 182, 212, 0.1);
@@ -432,6 +252,77 @@
         .severidad-badge.baja {
             background: rgba(16, 185, 129, 0.3);
             color: var(--success);
+        }
+
+        .diagnostico-estado {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .diagnostico-estado.optimo {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .diagnostico-estado.bueno {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--info);
+            border: 1px solid var(--info);
+        }
+
+        .diagnostico-estado.aceptable {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .diagnostico-estado.problematico,
+        .diagnostico-estado.critico {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .ia-problemas, .ia-recomendaciones {
+            list-style: none;
+            padding: 0;
+        }
+
+        .ia-problemas li {
+            padding: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--danger);
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-size: 0.85em;
+        }
+
+        .ia-problemas li::before {
+            content: "⚠️ ";
+        }
+
+        .ia-recomendaciones li {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--purple);
+            border-radius: 4px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .ia-recomendaciones li:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .ia-recomendaciones li::before {
+            content: "💡 ";
         }
 
         .relay-status {
@@ -607,21 +498,6 @@
             font-weight: bold;
         }
 
-        .instructions {
-            font-size: 0.9em;
-            line-height: 1.6;
-            opacity: 0.9;
-        }
-
-        .instructions ul {
-            margin: 10px 0;
-            padding-left: 20px;
-        }
-
-        .instructions li {
-            margin: 5px 0;
-        }
-
         @media (max-width: 768px) {
             .dashboard { 
                 grid-template-columns: 1fr; 
@@ -643,14 +519,14 @@
         <h1>🤖 ESP32 Dashboard Pro</h1>
         <div class="subtitle">
             <span>Monitoreo Inteligente en Tiempo Real</span>
-            <span class="ai-badge">🧠 Claude AI + Sistema Experto</span>
+            <span class="ai-badge">🧠 Sistema Experto Activo</span>
         </div>
     </div>
 
     <div class="readonly-notice">
-        <h3>📖 Dashboard de Análisis Inteligente</h3>
+        <h3>📖 Dashboard de Monitoreo Inteligente</h3>
         <p style="font-size: 0.9em;">
-            Análisis predictivo con <strong>IA de Anthropic (Claude Sonnet 4)</strong> + <strong>Sistema Experto</strong> basado en reglas<br>
+            Visualización en tiempo real con <strong>Sistema Experto basado en reglas</strong><br>
             Para controlar dispositivos, usa el <strong>Bot de Telegram</strong>
         </p>
     </div>
@@ -664,10 +540,6 @@
             <span class="pulse-dot red"></span>
             <span>ESP32</span>
         </div>
-        <div id="iaStatus" class="status-badge offline">
-            <span class="pulse-dot red"></span>
-            <span>Análisis IA</span>
-        </div>
         <div id="expertoStatus" class="status-badge offline">
             <span class="pulse-dot red"></span>
             <span>Sistema Experto</span>
@@ -675,29 +547,16 @@
     </div>
 
     <div class="dashboard">
-        <!-- ANÁLISIS IA CON CLAUDE -->
-        <div class="card ia-card wide">
-            <div class="card-header">
-                <span style="font-size: 1.5em;">🧠</span>
-                <h2>Análisis Inteligente con Claude AI</h2>
-                <button class="btn-refresh" onclick="loadIAAnalysis()">🔄</button>
-            </div>
-
-            <div id="iaAnalysisContainer">
-                <div class="loading">Cargando análisis de inteligencia artificial</div>
-            </div>
-        </div>
-
         <!-- SISTEMA EXPERTO -->
-        <div class="card experto-card">
+        <div class="card experto-card wide">
             <div class="card-header">
                 <span style="font-size: 1.5em;">⚙️</span>
-                <h2>Sistema Experto</h2>
+                <h2>Sistema Experto - Análisis Automático</h2>
                 <button class="btn-refresh" onclick="loadExpertoAnalysis()">🔄</button>
             </div>
 
             <div id="expertoContainer">
-                <div class="loading">Cargando reglas expertas</div>
+                <div class="loading">Cargando análisis del sistema experto</div>
             </div>
         </div>
 
@@ -775,39 +634,14 @@
                 </div>
             </div>
         </div>
-
-        <!-- Instrucciones -->
-        <div class="card">
-            <div class="card-header">
-                <span style="font-size: 1.5em;">📋</span>
-                <h2>Guía de Uso</h2>
-            </div>
-            <div class="instructions">
-                <p><strong>🔍 Este Dashboard muestra:</strong></p>
-                <ul>
-                    <li>🧠 Análisis predictivo con IA (Claude AI)</li>
-                    <li>⚙️ Reglas del sistema experto activadas</li>
-                    <li>📊 Temperatura y humedad en tiempo real</li>
-                    <li>📈 Gráficos históricos actualizados</li>
-                    <li>⚡ Estado de dispositivos (ON/OFF)</li>
-                </ul>
-
-                <p style="margin-top: 15px;"><strong>🎮 Control por Telegram:</strong></p>
-                <ul>
-                    <li>"<strong>temperatura máxima 35</strong>" - Ajustar alertas</li>
-                    <li>"<strong>enciende ventilador</strong>" - Control manual</li>
-                    <li>"<strong>setpoint 25</strong>" - Cambiar objetivo</li>
-                </ul>
-            </div>
-        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ⚠️ CONFIGURACIÓN - Reemplaza con tus credenciales
-        const SUPABASE_URL = 'https://yxwinzfhokugvtpmvyqz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl4d2luemZob2t1Z3Z0cG12eXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MzIyNjcsImV4cCI6MjA4MTQwODI2N30.xbNWsxmQ4MwbjaQgzfZLkvLE66XqaANiUD4pggr43Vg';
+        const SUPABASE_URL = 'TU_SUPABASE_URL_AQUI';
+        const SUPABASE_KEY = 'TU_SUPABASE_KEY_AQUI';
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -904,237 +738,165 @@
             if (text && span) span.textContent = text;
         }
 
-        // ===== CARGAR ANÁLISIS IA =====
-        async function loadIAAnalysis() {
+        // ===== CARGAR ANÁLISIS SISTEMA EXPERTO =====
+        async function loadExpertoAnalysis() {
+            const container = document.getElementById('expertoContainer');
+            
             try {
                 const { data, error } = await supabase
-                    .from('ia_analysis')
+                    .from('expert_analysis')
                     .select('*')
                     .order('created_at', { ascending: false })
                     .limit(1);
 
-                const container = document.getElementById('iaAnalysisContainer');
-
                 if (error || !data || data.length === 0) {
                     container.innerHTML = `
                         <div style="text-align: center; padding: 40px; opacity: 0.6;">
-                            <div style="font-size: 3em; margin-bottom: 10px;">🤖</div>
-                            <p>No hay análisis de IA disponibles</p>
+                            <div style="font-size: 3em; margin-bottom: 10px;">⚙️</div>
+                            <p>No hay análisis del sistema experto disponibles</p>
                             <p style="font-size: 0.85em; margin-top: 8px;">El sistema se actualizará automáticamente cuando esté disponible</p>
                         </div>
                     `;
-                    updateStatus('iaStatus', false, 'IA Inactiva');
+                    updateStatus('expertoStatus', false, 'Experto Inactivo');
                     return;
                 }
 
-                const analisis = JSON.parse(data[0].analisis_completo);
-                updateStatus('iaStatus', true, 'IA Activa');
+                const analisis = data[0];
+                const diagnostico = JSON.parse(analisis.diagnostico_completo);
+                updateStatus('expertoStatus', true, 'Sistema Experto Activo');
 
-                // Icono de tendencia
-                let tendenciaIcon = '📊';
-                if (analisis.tendencia === 'subiendo') tendenciaIcon = '📈';
-                else if (analisis.tendencia === 'bajando') tendenciaIcon = '📉';
-                else if (analisis.tendencia === 'estable') tendenciaIcon = '➡️';
+                // Icono de estado general
+                let estadoIcon = '✅';
+                if (analisis.estado_general === 'critico') estadoIcon = '🚨';
+                else if (analisis.estado_general === 'problematico') estadoIcon = '⚠️';
+                else if (analisis.estado_general === 'aceptable') estadoIcon = '⚙️';
 
                 let html = '';
 
-                // ALERTA URGENTE (si existe)
-                if (analisis.alerta_urgente && analisis.alerta_urgente.activa) {
-                    html += `
-                        <div class="alerta-urgente">
-                            <h4>🚨 ALERTA URGENTE</h4>
-                            <div style="font-weight: 600; font-size: 1.05em;">${analisis.alerta_urgente.tipo}</div>
-                            <div style="opacity: 0.9; margin-top: 6px;">${analisis.alerta_urgente.mensaje}</div>
-                        </div>
-                    `;
-                }
-
-                // TENDENCIA
+                // ESTADO GENERAL
                 html += `
-                    <div class="ia-tendencia">
-                        <div class="tendencia-icon">${tendenciaIcon}</div>
-                        <div class="tendencia-texto">
-                            <strong>Tendencia de Temperatura</strong>
-                            <div style="opacity: 0.85; font-size: 0.9em; margin-top: 4px;">${analisis.tendencia_descripcion}</div>
+                    <div class="experto-section">
+                        <h3 style="margin-bottom: 15px; font-size: 1.1em;">📊 Estado General del Sistema</h3>
+                        <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 15px;">
+                            <div style="font-size: 3em; margin-bottom: 8px;">${estadoIcon}</div>
+                            <span class="diagnostico-estado ${analisis.estado_general}">
+                                ${analisis.estado_general.toUpperCase()}
+                            </span>
+                            <div style="margin-top: 12px; font-size: 0.9em; opacity: 0.9;">
+                                ${diagnostico.resumen}
+                            </div>
                         </div>
-                        <span class="tendencia-badge ${analisis.tendencia}">${analisis.tendencia.toUpperCase()}</span>
-                    </div>
-                `;
 
-                // PREDICCIÓN
-                html += `
-                    <div class="ia-prediccion">
-                        <h4>🔮 Predicción para los próximos 30 minutos</h4>
-                        <div class="prediccion-value">
-                            ${analisis.prediccion_30min.temperatura.toFixed(1)}°C
-                        </div>
-                        <div style="text-align: center; font-size: 0.85em; opacity: 0.8;">
-                            Nivel de confianza: <strong>${analisis.prediccion_30min.confianza}</strong>
+                        <div class="stat-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">🔴 Severidad Máxima</div>
+                                <div class="stat-value" style="color: ${
+                                    analisis.severidad_maxima === 'critica' ? 'var(--danger)' :
+                                    analisis.severidad_maxima === 'alta' ? 'var(--warning)' :
+                                    analisis.severidad_maxima === 'media' ? 'var(--info)' : 'var(--success)'
+                                };">${analisis.severidad_maxima.toUpperCase()}</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">📋 Reglas Activas</div>
+                                <div class="stat-value" style="color: var(--primary);">${analisis.total_reglas}</div>
+                            </div>
                         </div>
                     </div>
                 `;
 
-                // DIAGNÓSTICO
-                html += `
-                    <div class="ia-section">
-                        <h3 style="margin-bottom: 12px; font-size: 1.1em;">🔍 Diagnóstico del Sistema</h3>
-                        <span class="diagnostico-estado ${analisis.diagnostico.estado_general}">
-                            ${analisis.diagnostico.estado_general.toUpperCase()}
-                        </span>
-                        <div style="margin-top: 12px; font-size: 0.9em;">
-                            <strong>⚡ Eficiencia del Sistema:</strong> 
-                            <span style="text-transform: capitalize;">${analisis.diagnostico.eficiencia_sistema}</span>
-                        </div>
-                `;
-
-                // Problemas detectados
-                if (analisis.diagnostico.problemas_detectados && analisis.diagnostico.problemas_detectados.length > 0) {
+                // PROBLEMAS DETECTADOS
+                const problemas = JSON.parse(analisis.problemas || '[]');
+                if (problemas && problemas.length > 0) {
                     html += `
-                        <div style="margin-top: 15px;">
-                            <strong style="color: var(--danger); display: block; margin-bottom: 8px;">⚠️ Problemas Detectados:</strong>
+                        <div class="experto-section" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                            <h3 style="margin-bottom: 12px; font-size: 1.05em; color: var(--danger);">⚠️ Problemas Detectados</h3>
                             <ul class="ia-problemas">
-                                ${analisis.diagnostico.problemas_detectados.map(p => `<li>${p}</li>`).join('')}
+                                ${problemas.map(p => `<li>${p}</li>`).join('')}
                             </ul>
                         </div>
                     `;
-                } else {
-                    html += `
-                        <div style="margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border-left: 3px solid var(--success);">
-                            <strong style="color: var(--success);">✅ No se detectaron problemas</strong>
-                        </div>
-                    `;
                 }
 
-                html += `</div>`;
+                // REGLAS ACTIVADAS POR TIPO
+                if (diagnostico.reglas_por_tipo) {
+                    html += `
+                        <div class="experto-section">
+                            <h3 style="margin-bottom: 12px; font-size: 1.05em;">📋 Reglas Activadas por Categoría</h3>
+                    `;
+
+                    const iconosPorTipo = {
+                        'temperatura': '🌡️',
+                        'humedad': '💧',
+                        'dispositivos': '🔌',
+                        'eficiencia': '⚡',
+                        'configuracion': '⚙️',
+                        'sistema': '🖥️'
+                    };
+
+                    for (const [tipo, reglas] of Object.entries(diagnostico.reglas_por_tipo)) {
+                        html += `
+                            <div style="margin-bottom: 15px;">
+                                <strong style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 0.95em;">
+                                    ${iconosPorTipo[tipo] || '📌'} ${tipo.charAt(0).toUpperCase() + tipo.slice(1)} (${reglas.length})
+                                </strong>
+                        `;
+
+                        reglas.forEach(regla => {
+                            html += `
+                                <div class="experto-regla">
+                                    <div class="regla-titulo">
+                                        ${regla.nombre}
+                                        <span class="severidad-badge ${regla.severidad}">${regla.severidad.toUpperCase()}</span>
+                                    </div>
+                                    <div class="regla-desc">
+                                        <strong>Acción:</strong> ${regla.accion}<br>
+                                        <strong>Recomendación:</strong> ${regla.recomendacion}
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        html += `</div>`;
+                    }
+
+                    html += `</div>`;
+                }
 
                 // RECOMENDACIONES
-                if (analisis.recomendaciones && analisis.recomendaciones.length > 0) {
+                const recomendaciones = JSON.parse(analisis.recomendaciones || '[]');
+                if (recomendaciones && recomendaciones.length > 0) {
                     html += `
-                        <div class="ia-section">
-                            <h3 style="margin-bottom: 12px; font-size: 1.1em;">💡 Recomendaciones del Sistema</h3>
+                        <div class="experto-section">
+                            <h3 style="margin-bottom: 12px; font-size: 1.05em;">💡 Recomendaciones del Sistema</h3>
                             <ul class="ia-recomendaciones">
-                                ${analisis.recomendaciones.map(r => `<li>${r}</li>`).join('')}
+                                ${recomendaciones.map(r => `<li>${r}</li>`).join('')}
                             </ul>
                         </div>
                     `;
                 }
 
                 // Timestamp
-                const fecha = new Date(data[0].created_at);
+                const fecha = new Date(analisis.created_at);
                 html += `
                     <div class="timestamp">
-                        📅 Última actualización: ${fecha.toLocaleDateString('es-PE')} ${fecha.toLocaleTimeString('es-PE')}
+                        📅 Última evaluación: ${fecha.toLocaleDateString('es-PE')} ${fecha.toLocaleTimeString('es-PE')}<br>
+                        🌡️ Temp: ${analisis.temperatura_actual?.toFixed(1)}°C | 💧 Hum: ${analisis.humedad_actual?.toFixed(0)}%
                     </div>
                 `;
 
                 container.innerHTML = html;
 
             } catch (error) {
-                console.error('Error cargando análisis IA:', error);
-                document.getElementById('iaAnalysisContainer').innerHTML = `
+                console.error('Error cargando sistema experto:', error);
+                container.innerHTML = `
                     <div style="text-align: center; padding: 30px; color: var(--danger);">
                         <div style="font-size: 2em; margin-bottom: 10px;">❌</div>
-                        <p>Error al cargar análisis de IA</p>
+                        <p>Error al cargar sistema experto</p>
                     </div>
                 `;
-                updateStatus('iaStatus', false, 'Error IA');
+                updateStatus('expertoStatus', false, 'Error Experto');
             }
         }
-
-        // ===== CARGAR ANÁLISIS SISTEMA EXPERTO =====
-        async function loadExpertoAnalysis() {
-        const container = document.getElementById('expertoContainer');
-        
-        try {
-            const { data, error } = await supabase
-                .from('expert_analysis')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(1);
-
-            if (error || !data || data.length === 0) {
-                container.innerHTML = `
-                    <div style="text-align: center; padding: 40px; opacity: 0.6;">
-                        <div style="font-size: 3em; margin-bottom: 10px;">⚙️</div>
-                        <p>No hay análisis del sistema experto disponibles</p>
-                    </div>
-                `;
-                updateStatus('expertoStatus', false, 'Experto Inactivo');
-                return;
-            }
-
-            const analisis = data[0];
-            const diagnostico = JSON.parse(analisis.diagnostico_completo);
-            updateStatus('expertoStatus', true, 'Sistema Experto Activo');
-
-            let estadoIcon = '✅';
-            if (analisis.estado_general === 'critico') estadoIcon = '🚨';
-            else if (analisis.estado_general === 'problematico') estadoIcon = '⚠️';
-            else if (analisis.estado_general === 'aceptable') estadoIcon = '⚙️';
-
-            let html = `
-                <div class="experto-section">
-                    <h3 style="margin-bottom: 15px;">📊 Estado General del Sistema</h3>
-                    <div style="text-align: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;">
-                        <div style="font-size: 3em;">${estadoIcon}</div>
-                        <span class="diagnostico-estado ${analisis.estado_general}">
-                            ${analisis.estado_general.toUpperCase()}
-                        </span>
-                    </div>
-                    <div class="stat-grid" style="margin-top: 15px;">
-                        <div class="stat-item">
-                            <div class="stat-label">🔴 Severidad</div>
-                            <div class="stat-value">${analisis.severidad_maxima.toUpperCase()}</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-label">📋 Reglas</div>
-                            <div class="stat-value">${analisis.total_reglas}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            const problemas = JSON.parse(analisis.problemas || '[]');
-            if (problemas.length > 0) {
-                html += `
-                    <div class="experto-section" style="background: rgba(239,68,68,0.1);">
-                        <h3 style="color: var(--danger);">⚠️ Problemas Detectados</h3>
-                        <ul class="ia-problemas">
-                            ${problemas.map(p => `<li>${p}</li>`).join('')}
-                        </ul>
-                    </div>
-                `;
-            }
-
-            if (diagnostico.reglas_por_tipo) {
-                html += `<div class="experto-section"><h3>📋 Reglas Activadas</h3>`;
-                for (const [tipo, reglas] of Object.entries(diagnostico.reglas_por_tipo)) {
-                    html += `<strong>${tipo}: ${reglas.length} reglas</strong><br>`;
-                    reglas.forEach(r => {
-                        html += `
-                            <div class="experto-regla">
-                                <div class="regla-titulo">
-                                    ${r.nombre}
-                                    <span class="severidad-badge ${r.severidad}">${r.severidad}</span>
-                                </div>
-                                <div class="regla-desc">${r.recomendacion}</div>
-                            </div>
-                        `;
-                    });
-                }
-                html += `</div>`;
-            }
-
-            const fecha = new Date(analisis.created_at);
-            html += `<div class="timestamp">📅 ${fecha.toLocaleString('es-PE')}</div>`;
-
-            container.innerHTML = html;
-
-        } catch (error) {
-            console.error('Error:', error);
-            updateStatus('expertoStatus', false, 'Error Experto');
-        }
-    }
 
         // ===== CARGAR DATOS ACTUALES =====
         async function loadLatestData() {
@@ -1283,7 +1045,7 @@
 
         // ===== INICIALIZACIÓN =====
         window.addEventListener('load', () => {
-            console.log('🚀 Iniciando Dashboard ESP32 Pro con IA...');
+            console.log('🚀 Iniciando Dashboard ESP32 Pro con Sistema Experto...');
             
             // Inicializar gráfico
             initChart();
@@ -1293,7 +1055,6 @@
             loadChartData();
             loadConfig();
             loadRelays();
-            loadIAAnalysis();
             loadExpertoAnalysis();
             
             // Actualización periódica
@@ -1304,12 +1065,11 @@
             
             setInterval(loadRelays, 10000);           // Cada 10 segundos
             setInterval(loadConfig, 15000);           // Cada 15 segundos
-            setInterval(loadIAAnalysis, 60000);       // Cada 60 segundos (1 minuto)
             setInterval(loadExpertoAnalysis, 30000);  // Cada 30 segundos
             
             console.log('✅ Dashboard listo');
             console.log('📡 Leyendo datos de Supabase');
-            console.log('🧠 Análisis IA activado');
+            console.log('⚙️ Sistema Experto activado');
         });
     </script>
 </body>

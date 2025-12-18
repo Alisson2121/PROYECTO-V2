@@ -1,0 +1,42 @@
+services:
+  # Servicio 1: Bot de Telegram
+  - type: web
+    name: esp32-telegram-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python telegram-bot.py
+    envVars:
+      - key: TELEGRAM_TOKEN
+        sync: false
+      - key: MQTT_HOST
+        sync: false
+      - key: MQTT_PORT
+        value: 8883
+      - key: MQTT_USER
+        sync: false
+      - key: MQTT_PASS
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+    
+  # Servicio 2: Sistema Experto
+  - type: web
+    name: esp32-expert-system
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python expert_service.py
+    envVars:
+      - key: MQTT_HOST
+        sync: false
+      - key: MQTT_PORT
+        value: 8883
+      - key: MQTT_USER
+        sync: false
+      - key: MQTT_PASS
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
