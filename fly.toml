@@ -1,0 +1,45 @@
+# Configuración de Fly.io para ESP32 Bot + Sistema Experto
+
+app = "esp32-bot-experto"
+primary_region = "mia" # Miami - cambia a tu región preferida
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  # Estas son públicas, las secretas van con flyctl secrets set
+  MQTT_PORT = "8883"
+
+# Proceso 1: Bot de Telegram
+[processes]
+  bot = "python3 bot_completo.py"
+  experto = "python3 expert_service.py"
+
+# Configuración de máquina virtual
+[vm]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+# Healthcheck (opcional)
+[[services]]
+  internal_port = 8080
+  protocol = "tcp"
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 25
+    soft_limit = 20
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "5s"

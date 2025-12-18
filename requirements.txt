@@ -1,8 +1,19 @@
-python-telegram-bot
-paho-mqtt
-supabase
-gtts
-speechrecognition
-pydub
-python-dotenv
-anthropic
+# Bot de Telegram
+python-telegram-bot==20.7
+
+# MQTT
+paho-mqtt==1.6.1
+
+# Base de datos
+supabase==2.3.4
+
+# Text-to-Speech y Speech Recognition
+gTTS==2.5.0
+SpeechRecognition==3.10.1
+pydub==0.25.1
+
+# IA (opcional - solo si usas Claude AI)
+anthropic==0.18.1
+
+# Variables de entorno
+python-dotenv==1.0.1
