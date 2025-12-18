@@ -1,13 +1,15 @@
 # MQTT
 paho-mqtt==1.6.1
 
-# Base de datos
+# Base de datos  
 supabase==2.3.4
 
-# Lógica Difusa (requiere Python 3.11)
+# NumPy y SciPy con wheels pre-compilados
+numpy==2.2.0
+scipy==1.14.1
+
+# Lógica Difusa
 scikit-fuzzy==0.4.2
-numpy==1.24.3
-scipy==1.10.1
 
 # Variables de entorno
 python-dotenv==1.0.1
