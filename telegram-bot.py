@@ -22,12 +22,16 @@ from pydub import AudioSegment
 # CONFIGURACIÓN
 # ========================================
 
-TELEGRAM_TOKEN = "8491255978:AAFfDy6smKSAhkcGjtX8HxHh6cXe9RB4Y44"
 
-MQTT_HOST = "e311193c90544b20aa5e2fc9b1c06df5.s1.eu.hivemq.cloud"
-MQTT_PORT = 8883
-MQTT_USER = "esp32user"
-MQTT_PASS = "Esp32pass123"
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+
+MQTT_HOST = os.getenv("MQTT_HOST")
+MQTT_PORT = int(os.getenv("MQTT_PORT", 8883))
+MQTT_USER = os.getenv("MQTT_USER")
+MQTT_PASS = os.getenv("MQTT_PASS")
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 # ========================================
 # INICIALIZAR MQTT
