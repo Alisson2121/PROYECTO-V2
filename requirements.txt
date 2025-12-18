@@ -4,9 +4,10 @@ paho-mqtt==1.6.1
 # Base de datos
 supabase==2.3.4
 
-# Lógica Difusa (Python 3.13 compatible)
+# Lógica Difusa (requiere Python 3.11)
 scikit-fuzzy==0.4.2
-numpy>=2.0.0  # ← Compatible con Python 3.13
+numpy==1.24.3
+scipy==1.10.1
 
 # Variables de entorno
 python-dotenv==1.0.1
